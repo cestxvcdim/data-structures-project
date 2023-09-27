@@ -1,38 +1,53 @@
+from typing import Any, Optional, Self, List
+
+
 class Node:
     """Класс для узла очереди"""
 
-    def __init__(self, data, next_node):
-        """
-        Конструктор класса Node
+    def __init__(self, data: Any, next_node: Optional[Self]) -> None:
+        self.data = data
+        self.next_node = next_node
 
-        :param data: данные, которые будут храниться в узле
-        """
-        pass
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}(data={self.data}, next_node={self.next_node})"
 
 
 class Queue:
     """Класс для очереди"""
 
     def __init__(self):
-        """Конструктор класса Queue"""
-        pass
+        self.__queue: List[Node] = []
 
-    def enqueue(self, data):
-        """
-        Метод для добавления элемента в очередь
+    def __repr__(self):
+        return f"{self.__class__.__name__} object, size={self.size}"
 
-        :param data: данные, которые будут добавлены в очередь
-        """
-        pass
+    @property
+    def head(self) -> Optional[Node]:
+        try:
+            return self.__queue[0]
+        except IndexError:
+            return
 
-    def dequeue(self):
-        """
-        Метод для удаления элемента из очереди. Возвращает данные удаленного элемента
+    @property
+    def tail(self) -> Optional[Node]:
+        try:
+            return self.__queue[-1]
+        except IndexError:
+            return
 
-        :return: данные удаленного элемента
-        """
-        pass
+    @property
+    def size(self) -> int:
+        return len(self.__queue)
 
-    def __str__(self):
-        """Магический метод для строкового представления объекта"""
+    @property
+    def empty(self) -> bool:
+        return self.size < 1
+
+    def enqueue(self, data: Any) -> None:
+        node = self.tail
+        self.__queue.append(Node(data=data, next_node=None))
+        if len(self.__queue) > 1:
+            node.next_node = self.tail
+
+    def dequeue(self) -> Optional[Node]:
         pass

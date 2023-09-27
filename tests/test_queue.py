@@ -1,1 +1,14 @@
-"""Здесь надо написать тесты с использованием unittest для модуля queue."""
+import pytest
+from src.queue import Queue, Node
+
+queue = Queue()
+
+
+def test_enqueue():
+    queue.enqueue(1)
+    assert queue.head.data == 1
+    assert queue.head.next_node is None
+    queue.enqueue(2)
+    assert queue.tail.data == 2
+    assert queue.head.data == 1
+    assert isinstance(queue.head.next_node, Node)

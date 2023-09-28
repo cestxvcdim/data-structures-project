@@ -39,7 +39,7 @@ class Queue:
     @property
     def size(self) -> int:
         size = 0
-        node = self.head
+        node = self._head
         while node:
             node = node.next_node
             size += 1
@@ -47,12 +47,12 @@ class Queue:
 
     @property
     def empty(self) -> bool:
-        return self.head is None
+        return self._head is None
 
     def enqueue(self, data: Any) -> None:
         node = Node(data=data, next_node=None)
         if not self.empty:
-            self._tail = self.head
+            self._tail = self._head
             while True:
                 if self._tail.next_node is None:
                     break

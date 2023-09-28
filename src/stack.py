@@ -19,7 +19,7 @@ class Stack:
         self._top: Optional[Node] = None
 
     def __repr__(self) -> str:
-        return f"Stack<{str(self._top)}>"
+        return f"{self.__class__.__name__}<{str(self._top)}>"
 
     def __str__(self) -> str:
         return f"{self.__class__.__name__} object, size={self.size}"
@@ -47,7 +47,9 @@ class Stack:
     def push(self, data: Any) -> None:
         self._top = Node(data=data, next_node=self._top)
 
-    def pop(self) -> Optional[Node]:
+    def pop(self) -> Optional[Any]:
         node = self._top
+        if node is None:
+            return
         self._top = node.next_node
         return node.data

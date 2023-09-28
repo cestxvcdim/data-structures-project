@@ -20,7 +20,7 @@ class Queue:
         self._tail: Optional[Node] = None
 
     def __repr__(self) -> str:
-        return f"Queue<{str(self._head)}>"
+        return f"{self.__class__.__name__}<{str(self._head)}>"
 
     def __str__(self) -> str:
         return f"{self.__class__.__name__} object, size={self.size}"
@@ -57,5 +57,9 @@ class Queue:
             self._head = node
         self._tail = node
 
-    def dequeue(self) -> Optional[Node]:
-        pass
+    def dequeue(self) -> Optional[Any]:
+        node = self._head
+        if node is None:
+            return
+        self._head = node.next_node
+        return node.data

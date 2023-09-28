@@ -52,17 +52,10 @@ class Queue:
     def enqueue(self, data: Any) -> None:
         node = Node(data=data, next_node=None)
         if not self.empty:
-            self._tail = self._head
-            while True:
-                if self._tail.next_node is None:
-                    break
-                else:
-                    self._tail = self.tail.next_node
             self._tail.next_node = node
-            self._tail = node
         else:
             self._head = node
-            self._tail = node
+        self._tail = node
 
     def dequeue(self) -> Optional[Node]:
         pass

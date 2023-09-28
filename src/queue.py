@@ -1,4 +1,4 @@
-from typing import Any, Optional, Self, List
+from typing import Any, Optional, Self
 
 
 class Node:
@@ -15,39 +15,54 @@ class Node:
 class Queue:
     """Класс для очереди"""
 
-    def __init__(self):
-        self.__queue: List[Node] = []
+    def __init__(self) -> None:
+        self._head: Optional[Node] = None
+        self._tail: Optional[Node] = None
 
-    def __repr__(self):
+    def __repr__(self) -> str:
+        return f"Queue<{str(self._head)}>"
+
+    def __str__(self) -> str:
         return f"{self.__class__.__name__} object, size={self.size}"
+
+    def __len__(self) -> int:
+        return self.size
 
     @property
     def head(self) -> Optional[Node]:
-        try:
-            return self.__queue[0]
-        except IndexError:
-            return
+        return self._head
 
     @property
     def tail(self) -> Optional[Node]:
-        try:
-            return self.__queue[-1]
-        except IndexError:
-            return
+        return self._tail
 
     @property
     def size(self) -> int:
-        return len(self.__queue)
+        size = 0
+        node = self.head
+        while node:
+            node = node.next_node
+            size += 1
+        return size
 
     @property
     def empty(self) -> bool:
-        return self.size < 1
+        return self.head is None
 
     def enqueue(self, data: Any) -> None:
-        node = self.tail
-        self.__queue.append(Node(data=data, next_node=None))
-        if len(self.__queue) > 1:
-            node.next_node = self.tail
+        node = Node(data=data, next_node=None)
+        if not self.empty:
+            self._tail = self.head
+            while True:
+                if self._tail.next_node is None:
+                    break
+                else:
+                    self._tail = self.tail.next_node
+            self._tail.next_node = node
+            self._tail = node
+        else:
+            self._head = node
+            self._tail = node
 
     def dequeue(self) -> Optional[Node]:
         pass

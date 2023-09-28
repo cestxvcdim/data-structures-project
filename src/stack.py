@@ -1,4 +1,4 @@
-from typing import Any, Optional, Self, List
+from typing import Any, Optional, Self
 
 
 class Node:
@@ -16,30 +16,38 @@ class Stack:
     """Класс для стека"""
 
     def __init__(self) -> None:
-        """Конструктор класса Stack"""
-        self.__stack: List[Node] = []
+        self._top: Optional[Node] = None
 
     def __repr__(self) -> str:
+        return f"Stack<{str(self._top)}>"
+
+    def __str__(self) -> str:
         return f"{self.__class__.__name__} object, size={self.size}"
+
+    def __len__(self) -> int:
+        return self.size
 
     @property
     def top(self) -> Optional[Node]:
-        try:
-            return self.__stack[-1]
-        except IndexError:
-            return
+        return self._top
 
     @property
     def size(self) -> int:
-        return len(self.__stack)
+        size = 0
+        node = self._top
+        while node:
+            node = node.next_node
+            size += 1
+        return size
 
     @property
     def empty(self) -> bool:
-        return self.size < 1
+        return self._top is None
 
     def push(self, data: Any) -> None:
-        self.__stack.append(Node(data=data, next_node=self.top))
+        self._top = Node(data=data, next_node=self._top)
 
     def pop(self) -> Optional[Node]:
-        node = self.__stack.pop()
+        node = self._top
+        self._top = node.next_node
         return node.data
